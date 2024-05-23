@@ -46,5 +46,40 @@ namespace backendP.Controllers
                 return Ok(itemDto);
             }
         }
+
+        [HttpPost]
+        public async Task<ActionResult<ItemDto>> Add(ItemInsertDto itemInsert)
+        {
+            //objeto que se relaciona directamente a la base de datos
+            var item = new Item
+            {
+                Name = itemInsert.Name,
+                Description = itemInsert.Description,
+                DepartmentID = itemInsert.DepartmentID
+            };
+
+            //indica que hara un insert 
+            await _context.Item.AddAsync(item);
+            //se insertan los cambios en la base de datos
+            await _context.SaveChangesAsync();
+
+            //respuesta 
+            var itemDto = new ItemDto
+            {
+                ItemID = item.ItemID,
+                Name = item.Name,
+                Description = item.Description,
+                DepartmentID = item.DepartmentID
+            };
+
+            //retorna en encabezado se requieren trea parametros
+            //primero necesita la url de donde esta el recurso
+            //parametro que mandaras a la ruta
+            //lo que se va a retornar el objeto final
+            //Console.Write(nameof(GetById));
+            return CreatedAtAction(nameof(GetById), new { ItemID = item.ItemID }, itemDto);
+
+
+        }
     }
 }

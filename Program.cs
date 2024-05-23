@@ -13,7 +13,7 @@ builder.Services.AddSwaggerGen();
 //inyeccion de servicio base de datos
 builder.Services.AddDbContext<StoreContext>(options =>
 {
-options.UseSqlServer(builder.Configuration.GetConnectionString("StoreConnection"));
+options.UseSqlServer(builder.Configuration.GetConnectionString("StoreConnectionH"));
 });
 
 var app = builder.Build();
