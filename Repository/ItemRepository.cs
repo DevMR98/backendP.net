@@ -28,7 +28,8 @@ namespace backendP.Repository
 
         public void Delete(Item entity)=>_storeContext.Remove(entity);
         public async Task Save() =>await _storeContext.SaveChangesAsync();
+        public IEnumerable<Item> Search(Func<Item,bool> filter) => _storeContext.Item.Where(filter).ToList();
 
-        
-    }
+
+}
 }

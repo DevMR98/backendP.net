@@ -51,6 +51,10 @@ namespace backendP.Controllers
             {
                 return BadRequest(validationResult.Errors);
             }
+            if (!_itemService.Validate(itemInsertDto))
+            {
+                return BadRequest(_itemService.Errors);
+            }
             //retorna en encabezado se requieren tres parametros
             //primero necesita la url de donde esta el recurso
             //parametro que mandaras a la ruta

@@ -6,17 +6,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backendP.Services
 {
-    public class ItemService : ICommonService<ItemDto,ItemInsertDto,ItemUpdateDto>
-    {
-
+    public class ItemService : ICommonService<ItemDto, ItemInsertDto, ItemUpdateDto>
+    {        
+        public List<string> Errors { get; }
         //inyeccion del respositorio 
         private IRepository<Item> _Itemrepository;
         //inyeccion m apper
         private IMapper _mapper;
-        public ItemService(IRepository<Item> itemRepository,IMapper mapper)
+    public ItemService(IRepository<Item> itemRepository,IMapper mapper)
         {
             _Itemrepository = itemRepository;
             _mapper = mapper;
+            Errors = new List<string>();
         }
 
         public async Task<IEnumerable<ItemDto>> Get() {
@@ -108,6 +109,27 @@ namespace backendP.Services
             }
 
             return null;
+        }
+
+        public bool Validate(ItemInsertDto itemInsertDto)
+        {
+            if (_Itemrepository.Search(i=>i.Name==itemInsertDto.Name).Count()>0)
+            {
+                Errors.Add("No puede existir un articulo con un nombre ya existente");
+                return false;
+            }
+            return true;
+
+        }
+
+        public bool Validate(ItemUpdateDto itemUpdateDto)
+        {
+            if (_Itemrepository.Search(i=>i.Name==itemUpdateDto.Name && itemUpdateDto.ItemID!=i.ItemID).Count()>0)
+            {
+                Errors.Add("No puede existir un item con un nombre ya existente");
+                return false;
+            }
+            return true;
         }
     }
 }
