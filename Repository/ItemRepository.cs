@@ -15,9 +15,9 @@ namespace backendP.Repository
             _storeContext = storeContext;
         }
 
-        public async Task<IEnumerable<Item>> Get() =>await _storeContext.Item.ToListAsync();
+        public async Task<IEnumerable<Item>> Get() => await _storeContext.Item.Include(i => i.Department).ToListAsync();
 
-        public async Task<Item> GetById(int id) => await _storeContext.Item.FindAsync(id);
+        public async Task<Item> GetById(int id) => await _storeContext.Item.Include(i=>i.Department).FirstOrDefaultAsync(i=>i.ItemID==id);
         public async Task Add(Item entity)=>await _storeContext.Item.AddAsync(entity);
         public void Update(Item entity)
         {

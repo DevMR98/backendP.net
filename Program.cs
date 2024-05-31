@@ -7,6 +7,9 @@ using backendP.Validators;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Cors;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +19,17 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Configuración de CORS
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder => {
+        builder.WithOrigins("http://localhost:8080");
+        builder.WithMethods("GET", "POST","PUT","DELETE");
+        builder.AllowAnyHeader();
+    });
+});
+
 
 //inyeccion de servicio base de datos
 builder.Services.AddDbContext<StoreContext>(options =>
@@ -36,6 +50,7 @@ builder.Services.AddScoped<IValidator<ItemUpdateDto>, ItemUpdateValidator>();
 
 var app = builder.Build();
 
+app.UseCors("origenes");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -43,10 +58,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
+
+
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
+app.UseStaticFiles(); //
+app.UseRouting(); // 
 app.MapControllers();
-
+app.UseCors();
+app.UseAuthorization();
 app.Run();
+
