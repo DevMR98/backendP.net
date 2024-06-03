@@ -38,8 +38,11 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("StoreConnectionH
 });
 //inyeccion de servicio item
 builder.Services.AddKeyedScoped<ICommonService<ItemDto, ItemInsertDto, ItemUpdateDto>, ItemService>("itemService");
+//inyeccion de servicio Department
+builder.Services.AddScoped<IDataService<DepartmentDto>, DepartmentService>();
 //inyeccion de repositorios
 builder.Services.AddScoped<IRepository<Item>,ItemRepository>();
+builder.Services.AddScoped<IDepartmentRepository<Department>,DepartmentRepository>();
 //inyeccion del automapper
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
