@@ -111,16 +111,16 @@ namespace backendP.Services
             return null;
         }
 
-        public bool Validate(ItemInsertDto itemInsertDto)
-        {
-            if (_Itemrepository.Search(i=>i.Name==itemInsertDto.Name).Count()>0)
-            {
-                Errors.Add("No puede existir un articulo con un nombre ya existente");
-                return false;
-            }
-            return true;
+        //public bool Validate(ItemInsertDto itemInsertDto)
+        //{
+        //    if (_Itemrepository.Search(i=>i.Name==itemInsertDto.Name).Count()>0)
+        //    {
+        //        Errors.Add("No puede existir un articulo con un nombre ya existente");
+        //        return false;
+        //    }
+        //    return true;
 
-        }
+        //}
 
         public bool Validate(ItemUpdateDto itemUpdateDto)
         {

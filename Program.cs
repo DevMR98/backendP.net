@@ -24,7 +24,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder => {
-        builder.WithOrigins("http://localhost:8080");
+        builder.WithOrigins("*");
         builder.WithMethods("GET", "POST","PUT","DELETE");
         builder.AllowAnyHeader();
     });
@@ -34,7 +34,7 @@ builder.Services.AddCors(options =>
 //inyeccion de servicio base de datos
 builder.Services.AddDbContext<StoreContext>(options =>
 {
-options.UseSqlServer(builder.Configuration.GetConnectionString("StoreConnectionH"));
+options.UseSqlServer(builder.Configuration.GetConnectionString("StoreConnectionT"));
 });
 //inyeccion de servicio item
 builder.Services.AddKeyedScoped<ICommonService<ItemDto, ItemInsertDto, ItemUpdateDto>, ItemService>("itemService");

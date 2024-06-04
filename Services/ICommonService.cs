@@ -10,7 +10,7 @@ namespace backendP.Services
         Task<T> Add(TI itemInsertDto);
         Task<T> Update(int ItemID,TU itemUpdatetDto);
         Task<T> Delete(int ItemID);
-        bool Validate(TI dto);
+        //bool Validate(TI dto);
         bool Validate(TU dto);
     }
 }
